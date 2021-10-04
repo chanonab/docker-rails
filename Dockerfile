@@ -4,7 +4,7 @@ FROM ruby:2.7.1-alpine3.12
 # Define environment variables.
  ENV LANG C.UTF-8
  ENV PS1 '▶ '
- ENV RAILS_ROOT /hr-note-qa
+ ENV RAILS_ROOT /docker-rails
  ENV BUNDLE_PATH /usr/local/bundle
 
  # Install Packages.
