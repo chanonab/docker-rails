@@ -1,108 +1,82 @@
-version: '3'
+version: "3"
 
 services:
-   web: &web_base
-     build: .
-     command: bundle exec puma -C config/puma.rb
-     environment:
-       - AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
-       - AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-       - AWS_DEFAULT_REGION=us-east-1
-       - AWS_HOST=minio
-       - AWS_ENDPOINT=http://minio:9000
-       - AWS_BUCKET_NAME=hr-note-qa-dev
-       - BUNDLE_PATH=/usr/local/bundle
-       - EDITOR=vim
-       - RACK_ENV=development
-       - RAILS_ENV=development
-       - REDIS_URL=redis://redis:6379
-       - WEBPACKER_DEV_SERVER_HOST=webpack
-     ports:
-       - 80:3000
-       - 443:3001
-       - 8808:8808
-     container_name: web
-     volumes:
-       - .:/hr-note-qa:cached
-       - bundle:/usr/local/bundle:cached
-       - dummy:/hr-note-qa/vendor
-       - dummy:/hr-note-qa/log
-       - dummy:/hr-note-qa/.git
-     tty: true
-     stdin_open: true
+  postgres:
+    image: postgres:13.0-alpine
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    ports:
+      - 5432:5432
+    container_name: postgres_db
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
-   webpack:
-     <<: *web_base
-     command: bin/webpack-dev-server
-     ports:
-       - 3035:3035
-     container_name: webpack
-     volumes:
-       - .:/hr-note-qa:cached
-       - bundle:/usr/local/bundle:cached
-     depends_on:
-       - web
-     tty: false
-     stdin_open: false
+  pgweb:
+    image: donnex/pgweb
+    links:
+      - postgres:postgres
+    ports:
+      - 8080:8080
+    container_name: pgweb
+    volumes:
+      - pgweb-data:/opt/pgweb
+    depends_on:
+      - postgres
 
-   minio:
-     image: minio/minio
-     ports:
-       - 9000:9000
-     container_name: minio
-     volumes:
-       - s3-data:/export
-     environment:
-       - MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE
-       - MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-     command: server /export
+  web: &web_base
+    build: .
+    command: bin/rails server -b 0.0.0.0 -p 3000
+    environment:
+      - AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+      - AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      - AWS_DEFAULT_REGION=us-east-1
+      - AWS_HOST=minio
+      - AWS_ENDPOINT=http://minio:9000
+      - AWS_BUCKET_NAME=hr-note-qa-dev
+      - BUNDLE_PATH=/usr/local/bundle
+      - EDITOR=vim
+      - RACK_ENV=development
+      - RAILS_ENV=development
+      - REDIS_URL=redis://redis:6379
+      - WEBPACKER_DEV_SERVER_HOST=webpack
+    ports:
+      - 80:3000
+    container_name: web
+    volumes:
+      - .:/hr-note-qa:cached
+      - bundle:/usr/local/bundle:cached
+      - dummy:/hr-note-qa/vendor
+      - dummy:/hr-note-qa/log
+      - dummy:/hr-note-qa/.git
+    depends_on:
+      - postgres
+    tty: true
+    stdin_open: true
 
-   elasticsearch:
-     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.2
-     ports:
-       - 9200:9200
-       - 9300:9300
-     container_name: elasticsearch
-     environment:
-       - cluster.name=docker-cluster
-       - bootstrap.memory_lock=true
-       - ES_JAVA_OPTS=-Xms256m -Xmx256m
-       - discovery.type=single-node
-     ulimits:
-       memlock:
-         soft: -1
-         hard: -1
-     volumes:
-       - es-data:/usr/share/elasticsearch/data/
-
-   worker:
-     <<: *web_base
-     command: bundle exec sidekiq -q default -q mailers
-     ports: []
-     container_name: worker
-
-   redis:
-     image: redis:6.0.8-alpine
-     ports:
-       - 6379:6379
-     container_name: redis
-     command: redis-server --appendonly yes
-     volumes:
-       - redis-data:/data
+  webpack:
+    <<: *web_base
+    command: bin/webpack-dev-server
+    ports:
+      - 3035:3035
+    container_name: webpack
+    volumes:
+      - .:/hr-note-qa:cached
+      - bundle:/usr/local/bundle:cached
+    depends_on:
+      - web
+    tty: false
+    stdin_open: false
 
 volumes:
-   pgweb-data:
-     driver: local
-   s3-data:
-     driver: local
-   es-data:
-     driver: local
-   redis-data:
-     driver: local
-   bundle:
-     driver: local
-   node_modules:
-     driver: local
-   packs:
-     driver: local
-   dummy:
+  postgres-data:
+    driver: local
+  pgweb-data:
+    driver: local
+  bundle:
+    driver: local
+  node_modules:
+    driver: local
+  packs:
+    driver: local
+  dummy:
