@@ -1,0 +1,7 @@
+version: '3'
+services:
+   generator:
+     build: .
+     container_name: generator
+     volumes:
+       - .:/docker-rails
