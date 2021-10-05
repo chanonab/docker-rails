@@ -44,11 +44,11 @@ services:
       - 80:3000
     container_name: web
     volumes:
-      - .:/hr-note-qa:cached
+      - .:/docker-rails:cached
       - bundle:/usr/local/bundle:cached
-      - dummy:/hr-note-qa/vendor
-      - dummy:/hr-note-qa/log
-      - dummy:/hr-note-qa/.git
+      - dummy:/docker-rails/vendor
+      - dummy:/docker-rails/log
+      - dummy:/docker-rails/.git
     depends_on:
       - postgres
     tty: true
@@ -61,7 +61,7 @@ services:
       - 3035:3035
     container_name: webpack
     volumes:
-      - .:/hr-note-qa:cached
+      - .:/docker-rails:cached
       - bundle:/usr/local/bundle:cached
     depends_on:
       - web
