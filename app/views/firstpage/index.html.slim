@@ -1,8 +1,6 @@
 h1 Firstpages
-p Find me in app/views/firstpage/index.html.erb
-span#date = @test_data
-
-javascript:
-    function dateTime() {
-        document.getElementById("date").innerHTML = new Date()
-    }
+- for s in @sample_data
+  ul
+   li #{s}
+div = @test_data
+img src="#{@img_data}" width="20%;" height="50%;" alt="" srcset=""/ 
