@@ -4,6 +4,6 @@ Rails.application.routes.draw do
   get 'contacts/create', to: 'contacts#create'
   get 'contacts/complete', to: 'contacts#complete'
   get 'firstpage', to: 'firstpage#index'
-  post 'firstpagepost', to: 'firstpage#post'
+  get 'firstpagepost', to: 'firstpage#post'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
