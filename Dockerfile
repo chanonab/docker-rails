@@ -7,6 +7,9 @@ ENV PS1 '▶ '
 ENV RAILS_ROOT /docker-rails
 ENV BUNDLE_PATH /usr/local/bundle
 
+# Add Puma SSL certificate files.
+COPY ./keys/ /home/root/.ssh/
+
 # Install Packages.
 RUN apk update && apk upgrade && apk add --update --no-cache \
     build-base \

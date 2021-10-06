@@ -41,3 +41,16 @@ pidfile ENV.fetch("PIDFILE") { "tmp/pids/server.pid" }
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
+
+if ENV.fetch('RAILS_ENV') { 'development' } == 'development'
+    ssl_bind '0.0.0.0', '3001', {
+      cert: '/home/root/.ssh/docker-rails.pem',
+      key: '/home/root/.ssh/docker-rails-key.pem'
+    }
+    worker_timeout 1000
+elsif ENV.fetch('RAILS_ENV') == 'test'
+    ssl_bind '0.0.0.0', '3001', {
+      cert: '/home/root/.ssh/test/docker-rails.pem',
+      key: '/home/root/.ssh/test/docker-rails-key.pem'
+    }
+end

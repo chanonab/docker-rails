@@ -26,7 +26,7 @@ services:
 
   web: &web_base
     build: .
-    command: bin/rails server -b 0.0.0.0 -p 3000
+    command: bundle exec puma -C config/puma.rb
     environment:
       - AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
       - AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
@@ -42,6 +42,8 @@ services:
       - WEBPACKER_DEV_SERVER_HOST=webpack
     ports:
       - 80:3000
+      - 443:3001
+      - 8808:8808
     container_name: web
     volumes:
       - .:/docker-rails:cached
