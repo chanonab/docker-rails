@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params)
+    @user = User.new(params.required(:user).permit(:first_name, :last_name))
     if @user.invalid?
       render(:new)
     else 

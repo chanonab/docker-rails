@@ -7,11 +7,12 @@ class ContactsController < ApplicationController
   end
 
   def create
+    @contact = Contact.new(params.required(:contact).permit(:company_name, :address, :tel, :user_id))
     if @contact.invalid?
       render(:new)
     else 
       @contact.save
-      redirect_to(root_path)
+      redirect_to(firstpage_path)
     end
   end
 
