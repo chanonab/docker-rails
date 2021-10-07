@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
+  
   resource :contacts, only: %i[new create]
+  resource :users, only: %i[new create]
 
   # resource :contact, only: %i[new create] do
   #   collection do

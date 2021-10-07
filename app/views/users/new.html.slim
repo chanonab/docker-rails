@@ -1,0 +1,13 @@
+= form_for(:user, url: users_path(@user)) do |f|
+  div.field
+    = f.label(:first_name)
+    br
+    = f.text_field(:first_name)
+
+  div.field
+    = f.label(:last_name)
+    br
+    = f.text_field(:last_name)
+
+  div.actions
+    = f.submit
