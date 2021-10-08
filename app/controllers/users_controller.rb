@@ -34,6 +34,12 @@ class UsersController < ApplicationController
     end
   end
 
+  # def alert 
+  #   respond_to do |format|
+  #     format.js
+  #   end
+  # end
+
 
   private
 
