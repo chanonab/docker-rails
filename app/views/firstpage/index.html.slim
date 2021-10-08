@@ -13,7 +13,8 @@ div
   - @list_users.each do |user|
     ul
       li 
-        a href="users/#{user.id}/edit" #{user.first_name} #{user.last_name}
+        span #{user.first_name} #{user.last_name} &nbsp;
+        = link_to('Edit', edit_user_path(user))
 br
 div
   h4 List Contacts

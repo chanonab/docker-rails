@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resource :contacts, only: %i[new create]
   resource :users, only: %i[new create]
   resources :users, id: /\d+/, only: :edit do
-    match :update, via: %i[put patch]
+    post :update
   end
 
   # resource :contact, only: %i[new create] do

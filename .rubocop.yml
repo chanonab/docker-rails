@@ -1,50 +1,80 @@
 require:
-   - rubocop/cop/internal_affairs
-   - rubocop-performance
-   - rubocop-rails
-   - rubocop-rspec
-
- AllCops:
-   NewCops: enable
-   TargetRubyVersion: 2.6
-   TargetRailsVersion: 6.0
-   Exclude:
-     - bin/*
-     - db/schema.rb
-     - lib/**/*
-     - node_modules/**/*
-
- Rails:
-   Enabled: true
-
- Rails/CreateTableWithTimestamps:
-   Enabled: false
-
- Layout/LineLength:
-   Max: 120
-
- Metrics/AbcSize:
-   Max: 20
-
- Metrics/BlockLength:
-   ExcludedMethods:
-     - describe
-     - context
-     - define
-     - factory
-   Exclude:
-     - config/**/*.rb
-     - db/migrate/*.rb
-
- Metrics/MethodLength:
-   Exclude:
-     - db/migrate/*.rb
-
- Style/ClassAndModuleChildren:
-   Enabled: false
-
- Style/Documentation:
-   Enabled: false
-
- Style/FrozenStringLiteralComment:
-   Enabled: false
+  - rubocop/cop/internal_affairs
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+​
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 2.7
+  TargetRailsVersion: 6.0
+  Exclude:
+    - bin/*
+    - db/schema.rb
+    - lib/**/*
+    - node_modules/**/*
+​
+Rails:
+  Enabled: true
+​
+Rails/CreateTableWithTimestamps:
+  Enabled: false
+​
+Rails/DynamicFindBy:
+  Exclude:
+    - lib/emoji_extension.rb
+​
+Rails/HelperInstanceVariable:
+  Enabled: false
+​
+Rails/LinkToBlank:
+  Exclude:
+    - app/views/user_mailer/**/*
+​
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+​
+RSpec/AnyInstance:
+  Enabled: false
+​
+FactoryBot/CreateList:
+  EnforcedStyle: n_times
+​
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - app/views/user_mailer/**/*
+    - app/views/sendgrid_marketing_templates/**/*
+​
+Metrics/AbcSize:
+  Max: 20
+​
+Metrics/BlockLength:
+  ExcludedMethods:
+    - describe
+    - context
+    - define
+    - factory
+  Exclude:
+    - config/**/*.rb
+    - db/migrate/*.rb
+​
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/*.rb
+​
+Style/ClassAndModuleChildren:
+  Enabled: false
+​
+Style/Documentation:
+  Enabled: false
+​
+Style/FrozenStringLiteralComment:
+  Enabled: false
+​
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  Exclude:
+    - config/**/*.rb
+    - db/migrate/*.rb
+    - spec/**/*.rb
