@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-
+  root 'firstpage#index'
   
   resource :contacts, only: %i[new create]
   resource :users, only: %i[new create]
+  resources :users, id: /\d+/, only: :edit do
+    match :update, via: %i[put patch]
+  end
 
   # resource :contact, only: %i[new create] do
   #   collection do

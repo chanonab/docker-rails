@@ -12,7 +12,8 @@ div
   h4 List Users
   - @list_users.each do |user|
     ul
-      li #{user.first_name} #{user.last_name}
+      li 
+        a href="users/#{user.id}/edit" #{user.first_name} #{user.last_name}
 br
 div
   h4 List Contacts

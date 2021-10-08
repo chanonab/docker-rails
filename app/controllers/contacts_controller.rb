@@ -12,7 +12,7 @@ class ContactsController < ApplicationController
       render(:new)
     else 
       @contact.save
-      redirect_to(firstpage_path)
+      redirect_to(root_path)
     end
   end
 
