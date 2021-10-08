@@ -14,10 +14,18 @@ div
     ul
       li 
         span #{user.first_name} #{user.last_name} &nbsp;
-        = link_to('Edit', edit_user_path(user))
+        = link_to('Edit', edit_user_path(user)) 
+        span &nbsp;
+        = link_to('Delete', user_path(user.id), method: :delete, data: { confirm: "Do you want to delete?" })
 br
 div
   h4 List Contacts
   - @list_contacts.each do |contact|
     ul
-      li #{contact.company_name} #{contact.tel}
+      li 
+        strong #{contact.user.first_name} #{contact.user.last_name}
+        p
+        span #{contact.company_name} #{contact.tel} &nbsp;
+        = link_to('Edit', edit_contact_path(contact))
+        span &nbsp;
+        = link_to('Delete', contact_path(contact.id), method: :delete, data: { confirm: "Do you want to delete?" }) 

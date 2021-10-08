@@ -1,0 +1,22 @@
+= form_for(:contact, url: contact_update_path(@contact)) do |f|
+  div.field
+    .select
+      = f.select(:user_id, User.pluck(:first_name, :id), include_blank: 'Please Select User')
+          
+  div.field
+    = f.label(:address)
+    br
+    = f.text_area(:address)
+
+  div.field
+    = f.label(:company_name)
+    br
+    = f.text_field(:company_name)
+
+  div.field
+    = f.label(:tel)
+    br
+    = f.telephone_field(:tel)
+
+  div.actions
+    = f.submit

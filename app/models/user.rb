@@ -9,5 +9,5 @@
 #  updated_at :datetime         not null
 #
 class User < ApplicationRecord
-    has_many :contacts
+    has_many :contacts, dependent: :delete_all
 end
